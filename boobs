@@ -1,3 +1,22 @@
+local plr = game:GetService("Players").LocalPlayer
+local cclosure = syn_newcclosure or newcclosure or nil
+local oldNamecall
+oldNamecall = hookmetamethod(game, "__namecall", cclosure(function(self,...)
+local NamecallMethod = getnamecallmethod()
+local args = {...}
+
+if (NamecallMethod == "Kick" or NamecallMethod == "kick") and not checkcaller() then
+    if self ~= plr then
+        return oldNamecall(self,...)
+    end
+return
+end
+return oldNamecall(self,...)
+end))
+syn.protect_gui(game:GetService("CoreGui"))
+syn.protect_gui(game:GetService("StarterGui"))
+
+
 -- // Protected by luaGuard - Security Level basic
 
 -- This file was generated using Luraph Obfuscator v13.5.4
